@@ -1,8 +1,11 @@
+
+
 (function () {
     var client = ZAFClient.init();
 
     client.invoke('resize', { width: '200px', height: '200px' });
 
+    // Get Ticket Requester Info
     client.get('ticket.requester.id').then(
         function(data) {
           var user_id = data['ticket.requester.id'];
@@ -10,6 +13,15 @@
         }
       );
 
+      // Get Ticket Info 
+    client.get('ticket.customField:custom_field_test').then(function(data) {
+      
+      var ticketData = data['ticket.customField:custom_field_test'];
+
+      console.log(ticketData);
+      //showInfo(ticketData);
+
+    })
 
   })();
 
@@ -51,7 +63,6 @@ function requestUserInfo(client, id) {
   client.request(settings).then(
     function(data) {
       showInfo(data);
-      console.log(data);
     },
     function(response) {
       showError(response);
