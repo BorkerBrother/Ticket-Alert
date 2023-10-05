@@ -1,11 +1,17 @@
 
 
 (function () {
+  // Import Zendesk SDK
+  // get() - read
+  // set() - write
+  // on() - listen
+  // request - Http Request 
     var client = ZAFClient.init();
 
+    // Size from App
     client.invoke('resize', { width: '200px', height: '200px' });
 
-    // Get Ticket Requester Info
+    // Get USER INFO 
     client.get('ticket.requester.id').then(
         function(data) {
           var user_id = data['ticket.requester.id'];
@@ -13,20 +19,66 @@
         }
       );
 
-      // Get Ticket Info 
-    client.get('ticket.customField:custom_field_test').then(function(data) {
-      
-      var ticketData = data['ticket.customField:custom_field_test'];
 
-      console.log(ticketData);
-      //showInfo(ticketData);
+    // GET TICKET INFO
+    client.get('/api/v2/tickets.json').then(
+      function(tickets) {
+        console.log(tickets);
+      },
+      function(response) {
+        console.error(response.responseText);
+      }
+    );
 
-    })
+    // Get Ticket Info 
+    client.get('tickets.customField:Enddatum').then(function(data2) {
+      var ticket_endDate = data2['tickets.customField:Enddatum'];
+      requestTicketInfo(client, ticket_endDate);
+    });
 
   })();
 
   
+///// GET TICKET INFO 
+function requestTicketInfo(client, id) {
 
+  var settings = {
+    url: '/api/v2/tickets/' + id + '.json',
+    type:'GET',
+    dataType: 'json',
+  };
+
+  client.request(settings).then(
+    function(data) {
+      showInfo(data);
+    },
+    function(response) {
+      showError(response);
+    }
+  );
+}
+///// GET USER INFO
+  function requestUserInfo(client, id) {
+
+    var settings = {
+      url: '/api/v2/users/' + id + '.json',
+      type:'GET',
+      dataType: 'json',
+    };
+  
+    client.request(settings).then(
+      function(data) {
+        showInfo(data);
+        console.log(data);
+      },
+      function(response) {
+        showError(response);
+      }
+    );
+  }
+  
+
+// Show 
   function showInfo(data) {
     var requester_data = {
       'name': data.user.name,
@@ -53,22 +105,8 @@
     document.getElementById("content").innerHTML = html;
   }
 
-function requestUserInfo(client, id) {
-  var settings = {
-    url: '/api/v2/users/' + id + '.json',
-    type:'GET',
-    dataType: 'json',
-  };
 
-  client.request(settings).then(
-    function(data) {
-      showInfo(data);
-    },
-    function(response) {
-      showError(response);
-    }
-  );
-}
+
 
 function formatDate(date) {
     var cdate = new Date(date);
