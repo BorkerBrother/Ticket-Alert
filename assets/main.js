@@ -5,13 +5,13 @@
   // get() - read
   // set() - write
   // on() - listen
-  // request - Http Request 
+  // request() - Http Request 
     var client = ZAFClient.init();
 
-    // Size from App
+    // Size from App if in sidebar
     client.invoke('resize', { width: '200px', height: '200px' });
 
-    // Get USER INFO 
+    // Get USER INFO as get
     client.get('ticket.requester.id').then(
         function(data) {
           var user_id = data['ticket.requester.id'];
@@ -20,8 +20,8 @@
       );
 
 
-    // GET TICKET INFO
-    client.get('/api/v2/tickets.json').then(
+    // GET TICKET INFO as request
+    client.request('/api/v2/tickets/recent').then(
       function(tickets) {
         console.log(tickets);
       },
@@ -30,16 +30,28 @@
       }
     );
 
-    // Get Ticket Info 
-    client.get('tickets.customField:Enddatum').then(function(data2) {
-      var ticket_endDate = data2['tickets.customField:Enddatum'];
-      requestTicketInfo(client, ticket_endDate);
-    });
+      // Ticket info as get
+    client.get('ticket').then(
+      function(data) {
+        var user_id = data['ticket'];
+        console.log(user_id);
+      }
+    );
+
+    // Ticket Info Custom Field 
+    client.get('ticket.customField:custom_field_19134886927633').then(
+      function(data) {
+        var ticket_info = data['ticket.customField:custom_field_19134886927633'];
+        console.log(ticket_info);
+      }
+    );
+
+  
 
   })();
 
   
-///// GET TICKET INFO 
+///// SHOW TICKET INFO 
 function requestTicketInfo(client, id) {
 
   var settings = {
@@ -57,7 +69,8 @@ function requestTicketInfo(client, id) {
     }
   );
 }
-///// GET USER INFO
+
+///// SHOW USER INFO
   function requestUserInfo(client, id) {
 
     var settings = {
@@ -78,13 +91,13 @@ function requestTicketInfo(client, id) {
   }
   
 
-// Show 
+// Show Info User
   function showInfo(data) {
     var requester_data = {
       'name': data.user.name,
       'tags': data.user.tags,
-      'created_at': formatDate(data.user.created_at),
-      'finish_at': formatDate(data.user.finish_at)
+      'created_at': formatDate(data.user.created_at), // should be ticket info
+      //'finish_at': formatDate(data.user.finish_at) //     should be ticket info
     };
   
     var source = document.getElementById("requester-template").innerHTML;
@@ -93,6 +106,7 @@ function requestTicketInfo(client, id) {
     document.getElementById("content").innerHTML = html;
   }
 
+ // Show Error  
   function showError() {
     var error_data = {
       'status': 404,
@@ -106,8 +120,7 @@ function requestTicketInfo(client, id) {
   }
 
 
-
-
+// Formate Date 
 function formatDate(date) {
     var cdate = new Date(date);
     var options = {
