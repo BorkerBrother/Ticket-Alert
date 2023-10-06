@@ -28,23 +28,26 @@
       }
     );
 
-    // Get Ticket_id
-    client.get('ticket.id').then(function(data)
-    {
-      console.log(data);
-      var id = jsonObj.getInt("ticket.id")
-      console.log(id);
-    })
+    var ticketId;
 
-    // GET TICKET INFO as request ( Only for data)
-    client.request('/api/v2/tickets/'+ 1).then(
-      function(tickets) {
-        //console.log(tickets);
-      },
-      function(response) {
-        console.error(response.responseText);
-      }
-    );
+    // Get Ticket_id
+    client.get('ticket.id').then(function(data) {
+      //console.log(data);
+
+      // Die Ticket-ID als Integer abrufen
+      ticketId = parseInt(data['ticket.id']);
+
+      // GET TICKET INFO as request 
+      client.request('/api/v2/tickets/' + ticketId).then(
+
+        function(tickets) {
+          console.log(tickets);
+        },
+        function(response) {
+          console.error(response.responseText);
+        }
+      );
+    });
 
       // Ticket info as get (Only for data)
     client.get('ticket').then(
