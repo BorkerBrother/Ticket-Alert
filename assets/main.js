@@ -1,12 +1,13 @@
 
+// MAIN FUNCTION
 
 (function () {
-  // Import Zendesk SDK
+  // Import Zendesk SDK - Client
   // get() - read
   // set() - write
   // on() - listen
   // request() - Http Request 
-    var client = ZAFClient.init();
+  var client = ZAFClient.init();
 
     // Size from App if in sidebar
     client.invoke('resize', { width: '200px', height: '200px' });
@@ -19,18 +20,8 @@
         }
       );
 
-    // Ticket Info Custom Field 
-    client.get('ticket.customField:custom_field_19134886927633').then(
-      function(data) {
-        var ticket_info = data['ticket.customField:custom_field_19134886927633'];
-        //console.log(ticket_info);
-        //requestTicketInfo(client, ticket_info);
-      }
-    );
-
     //////////////////// Ticket Info MAIN 
     var ticketId;
-
       // Get Ticket_id
       client.get('ticket.id').then(function(data) {
         //console.log(data);
@@ -51,9 +42,7 @@
               var formattedDate = formatDate(customFieldDate);
 
               showInfoTicket(formattedDate);
-
-              console.log(formattedDate);
-              
+             
             });
           },
           function(response) {
@@ -61,18 +50,6 @@
           }
         );
     });
-
-      // Ticket info as get (Only for data)
-    client.get('ticket').then(
-      function(data) {
-        var user_id = data['ticket'];
-        //console.log(user_id);
-      }
-    );
-
-    
-
-  
 
   })();
 
@@ -106,7 +83,6 @@
       //'created_at': formatDate(data.user.created_at), // should be ticket info
       //'finish_at': formatDate(data.user.finish_at) //     should be ticket info
     };
-    
 
     var source = document.getElementById("requester-template").innerHTML; // Get template from html
     var template = Handlebars.compile(source);                            // 
@@ -158,6 +134,8 @@ function formatDate(date) {
   // Funktion, die aufgerufen wird, wenn der Button geklickt wird
 function onSetDateButtonClick() {
 
+  var client = ZAFClient.init();
+
   // Hier kannst du das gewünschte Datum erstellen
   var dateToSet = new Date(); // Hier wird das aktuelle Datum verwendet, du kannst es anpassen
 
@@ -176,7 +154,7 @@ function onSetDateButtonClick() {
 }
 
   document.addEventListener('DOMContentLoaded', function() {
-    // Hier fügst du den Code ein, der auf das DOM zugreift
+    // DOM CONTENT LOAD
     var button = document.getElementById('button');
     button.addEventListener('click', onSetDateButtonClick);
     
