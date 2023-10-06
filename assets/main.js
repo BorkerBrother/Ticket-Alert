@@ -23,12 +23,12 @@
     client.get('ticket.customField:custom_field_19134886927633').then(
       function(data) {
         var ticket_info = data['ticket.customField:custom_field_19134886927633'];
-        console.log(ticket_info);
+        //console.log(ticket_info);
         //requestTicketInfo(client, ticket_info);
       }
     );
 
-    // Ticket Info
+    //////////////////// Ticket Info MAIN 
     var ticketId;
 
       // Get Ticket_id
@@ -154,4 +154,31 @@ function formatDate(date) {
     date = cdate.toLocaleDateString("en-us", options);
     return date;
   }
+
+  // Funktion, die aufgerufen wird, wenn der Button geklickt wird
+function onSetDateButtonClick() {
+
+  // Hier kannst du das gewünschte Datum erstellen
+  var dateToSet = new Date(); // Hier wird das aktuelle Datum verwendet, du kannst es anpassen
+
+  // Formatieren des Datums in das gewünschte Format
+  var formattedDate = formatDate(dateToSet);
+
+  // Setzen des Datums in das benutzerdefinierte Feld
+  client.set('ticket.customField:custom_field_19134886927633', formattedDate).then(
+    function() {
+      console.log('Datum wurde erfolgreich gesetzt:', formattedDate);
+    },
+    function(response) {
+      console.error('Fehler beim Setzen des Datums:', response.responseText);
+    }
+  );
+}
+
+  document.addEventListener('DOMContentLoaded', function() {
+    // Hier fügst du den Code ein, der auf das DOM zugreift
+    var button = document.getElementById('button');
+    button.addEventListener('click', onSetDateButtonClick);
+    
+  });
 
