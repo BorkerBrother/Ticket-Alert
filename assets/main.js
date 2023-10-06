@@ -28,25 +28,38 @@
       }
     );
 
+    // Ticket Info
     var ticketId;
 
-    // Get Ticket_id
-    client.get('ticket.id').then(function(data) {
-      //console.log(data);
+      // Get Ticket_id
+      client.get('ticket.id').then(function(data) {
+        //console.log(data);
+      
+        // Die Ticket-ID als Integer abrufen
+        ticketId = parseInt(data['ticket.id']);
+      
+        // GET TICKET INFO as request 
+        client.request('/api/v2/tickets/' + ticketId).then(
+          function(tickets) {
+            console.log(tickets);
+      
+            client.get('ticket.customField:custom_field_19134886927633').then(function(data) {
+              // Datum aus dem benutzerdefinierten Feld abrufen
+              var customFieldDate = data['ticket.customField:custom_field_19134886927633'];
+      
+              // Das Datum in einen String umwandeln 
+              var formattedDate = formatDate(customFieldDate);
 
-      // Die Ticket-ID als Integer abrufen
-      ticketId = parseInt(data['ticket.id']);
+              showInfoTicket(formattedDate);
 
-      // GET TICKET INFO as request 
-      client.request('/api/v2/tickets/' + ticketId).then(
-
-        function(tickets) {
-          console.log(tickets);
-        },
-        function(response) {
-          console.error(response.responseText);
-        }
-      );
+              console.log(formattedDate);
+              
+            });
+          },
+          function(response) {
+            console.error(response.responseText);
+          }
+        );
     });
 
       // Ticket info as get (Only for data)
@@ -63,26 +76,6 @@
 
   })();
 
-  
-///// SHOW TICKET INFO 
-function requestTicketInfo(client, id) {
-
-  var settings = {
-    url: '/api/v2/tickets' + id + '.json', // 
-    type:'GET',
-    dataType: 'json',
-  };
-
-  client.request(settings).then(
-    function(data) {
-      console.log(data);
-      //showInfoTicket(data);
-    },
-    function(response) {
-      showError(response);
-    }
-  );
-}
 
 ///// SHOW USER INFO
   function requestUserInfo(client, user_id) {
@@ -127,7 +120,7 @@ function requestTicketInfo(client, id) {
       //'name': data.user.name,
       //'tags': data.user.tags,
       //'created_at': formatDate(data.user.created_at), // should be ticket info
-      'finish_at': data.ticket//     should be ticket info
+      'finish_at': data//     should be ticket info
     };
   
     var source = document.getElementById("requester-template").innerHTML;
