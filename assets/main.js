@@ -20,6 +20,12 @@
         }
       );
 
+    
+      // Ticket Status
+      client.request('ticket.status').then(function(data){
+       // console.log(data);
+      })
+
     //////////////////// Ticket Info MAIN 
     var ticketId;
       // Get Ticket_id
@@ -141,7 +147,7 @@ function onSetDateButtonClick() {
 
   // Datum setzen
   var dateToSet = new Date(inputDate);
-  dateToSet.setUTCHours(0, 0, 0, 0); // Zeitzone auf UTC setzen
+
 
   // Formatieren des Datums in das gewünschte Format
   var formattedDate = formatDateToUTC(dateToSet);
@@ -170,4 +176,79 @@ function formatDateToUTC(date) {
   var month = (date.getUTCMonth() + 1).toString().padStart(2, '0'); // Monat ist nullbasiert
   var day = date.getUTCDate().toString().padStart(2, '0');
   return year + '-' + month + '-' + day;
+}
+
+
+// ----------------------------  Change Status   ------------------------------ 
+
+// Wenn Datum abgelaufen, setzte ticket status auf neu 
+
+// Funktion zum Ändern des Ticketstatus
+
+(function() {
+  // Import Zendesk SDK
+  var client = ZAFClient.init();
+
+  // Starte die Überprüfungsfunktion beim Laden der App
+  checkAndUpdateTicketStatus(client);
+
+  // Interval für die Überprüfungsfunktion (alle 24 Stunden)
+  var checkIntervalInMilliseconds = 24 * 60 * 60 * 1000; // 24 Stunden
+  setInterval(function() {
+    checkAndUpdateTicketStatus(client);
+  }, checkIntervalInMilliseconds);
+
+})();
+
+// Funktion zum Überprüfen und Aktualisieren des Ticketstatus
+function checkAndUpdateTicketStatus(client) {
+  // Hole das aktuelle Ticket
+  client.metadata().then(function(metadata) {
+    var ticketId = metadata.ticket.id;
+
+    // Hole das Datum aus dem benutzerdefinierten Feld
+    client.get('ticket.customField:custom_field_19134886927633').then(function(data) {
+      var customFieldDate = data['ticket.customField:custom_field_19134886927633'];
+
+      // Konvertiere das Datum in ein Date-Objekt
+      var dateToCheck = new Date(customFieldDate);
+
+      // Überprüfe, ob das Datum abgelaufen ist
+      if (isDateExpired(dateToCheck)) {
+        // Das Datum ist abgelaufen, ändere den Ticketstatus hier
+        changeTicketStatus(client, ticketId, 'closed'); // Du kannst hier den gewünschten Status verwenden
+      }
+    });
+  });
+}
+
+
+// Hier wird die Funktion zur Überprüfung des Ticketstatus aufgerufen
+function isDateExpired(date) {
+  var currentDate = new Date();
+  return date < currentDate;
+}
+
+// Funktion zum Ändern des Ticketstatus
+function changeTicketStatus(client, ticketId, newStatus) {
+  var statusField = 'status';
+
+  var ticketData = {};
+  ticketData[statusField] = newStatus;
+
+  client.request({
+    url: '/api/v2/tickets/' + ticketId + '.json',
+    type: 'PUT',
+    dataType: 'json',
+    data: {
+      ticket: ticketData
+    }
+  }).then(
+    function(response) {
+      console.log('Ticketstatus wurde erfolgreich geändert:', newStatus);
+    },
+    function(response) {
+      console.error('Fehler beim Ändern des Ticketstatus:', response.responseText);
+    }
+  );
 }
