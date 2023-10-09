@@ -1,5 +1,5 @@
 
-// MAIN FUNCTION
+//--------------------- MAIN FUNCTION
 
 (function () {
   // Import Zendesk SDK - Client
@@ -9,145 +9,125 @@
   // request() - Http Request 
   var client = ZAFClient.init();
 
-    
-    // Starte die Überprüfungsfunktion beim Laden der App 
-    checkAndUpdateTicketStatus(client);
+  // Überprüfung im Browser
+  // checkAllTicketsForExpiry(client);  ---- TODO 
 
-    // Interval für die Überprüfungsfunktion (alle 24 Stunden)
-    var checkIntervalInMilliseconds = 24 * 60 * 60 * 1000; // 24 Stunden
-    setInterval(function() {
-      checkAndUpdateTicketStatus(client);
-    }, checkIntervalInMilliseconds);
-    
-    // Size from App if in sidebar
-    client.invoke('resize', { width: '200px', height: '200px' });
+  // Starte die Überprüfungsfunktion beim Laden der App 
+  checkAndUpdateTicketStatus(client);
+  
+  // Size from App
+  client.invoke('resize', { width: '200px', height: '200px' });
 
-    // Get USER INFO as get
-    client.get('ticket.requester.id').then(
-        function(data) {
-          var user_id = data['ticket.requester.id'];
-          requestUserInfo(client, user_id);
-        }
-      );
-
-    
-      // Ticket Status
-      client.request('ticket.status').then(function(data){
-       // console.log(data);
-      })
+  // Get USER INFO as get
+  client.get('ticket.requester.id').then(
+    function(data) {
+      var user_id = data['ticket.requester.id'];
+      requestUserInfo(client, user_id);
+    }
+  );
 
     //////////////////// Ticket Info MAIN 
-    var ticketId;
-      // Get Ticket_id
-      client.get('ticket.id').then(function(data) {
-        //console.log(data);
-      
-        // Die Ticket-ID als Integer abrufen
-        ticketId = parseInt(data['ticket.id']);
-      
-        // GET TICKET INFO as request 
-        client.request('/api/v2/tickets/' + ticketId).then(
-          function(tickets) {
-            console.log(tickets);
-      
-            client.get('ticket.customField:custom_field_19134886927633').then(function(data) {
-              // Datum aus dem benutzerdefinierten Feld abrufen
-              var customFieldDate = data['ticket.customField:custom_field_19134886927633'];
-      
-              // Das Datum in einen String umwandeln 
-              var formattedDate = formatDate(customFieldDate);
+  var ticketId;
+    // Get Ticket_id
+  client.get('ticket.id').then(function(data) {
+    //console.log(data);
+  
+  // Die Ticket-ID als Integer abrufen
+  ticketId = parseInt(data['ticket.id']);
+  
+  // GET TICKET INFO as request 
+  client.request('/api/v2/tickets/' + ticketId).then(
+    function(tickets) {
+      console.log(tickets);
 
-              showInfoTicket(formattedDate);
-             
-            });
-          },
-          function(response) {
-            console.error(response.responseText);
-          }
-        );
-    });
+      client.get('ticket.customField:custom_field_19134886927633').then(function(data) {
+        // Datum aus dem benutzerdefinierten Feld abrufen
+        var customFieldDate = data['ticket.customField:custom_field_19134886927633'];
 
-  })();
+        // Das Datum in einen String umwandeln 
+        var formattedDate = formatDate(customFieldDate);
+
+        showInfoTicket(formattedDate);
+        
+      });
+    },
+    function(response) {
+      console.error(response.responseText);
+    }
+  );
+  });
+
+})();
 
 
 ///// SHOW USER INFO
-  function requestUserInfo(client, user_id) {
+function requestUserInfo(client, user_id) {
 
-    var settings = {
-      url: '/api/v2/users/' + user_id + '.json',
-      type:'GET',
-      dataType: 'json',
-    };
-  
-    client.request(settings).then(
-      function(data) {
-        showInfoUser(data);
-        //console.log(data);
-      },
-      function(response) {
-        showError(response);
-      }
-    );
-  }
+  var settings = {
+    url: '/api/v2/users/' + user_id + '.json',
+    type:'GET',
+    dataType: 'json',
+  };
+
+  client.request(settings).then(
+    function(data) {
+      showInfoUser(data);
+      //console.log(data);
+    },
+    function(response) {
+      showError(response);
+    }
+  );
+}
   
 
 // Show Info User
-  function showInfoUser(data) {
-    var requester_data = {
-      'name': data.user.name,
-      'tags': data.user.tags,
-      //'created_at': formatDate(data.user.created_at), // should be ticket info
-      //'finish_at': formatDate(data.user.finish_at) //     should be ticket info
-    };
+function showInfoUser(data) {
+  var requester_data = {
+    'name': data.user.name,
+    'tags': data.user.tags,
+    //'created_at': formatDate(data.user.created_at), // should be ticket info
+    //'finish_at': formatDate(data.user.finish_at) //     should be ticket info
+  };
 
-    var source = document.getElementById("requester-template").innerHTML; // Get template from html
-    var template = Handlebars.compile(source);                            // 
-    var html = template(requester_data);
-    document.getElementById("content").innerHTML = html;
-  }
+  var source = document.getElementById("requester-template").innerHTML; // Get template from html
+  var template = Handlebars.compile(source);                            // 
+  var html = template(requester_data);
+  document.getElementById("content").innerHTML = html;
+}
 
-  // Show Info Ticket
-  function showInfoTicket(data) {
-    var requester_data = {
-      //'name': data.user.name,
-      //'tags': data.user.tags,
-      //'created_at': formatDate(data.user.created_at), // should be ticket info
-      'finish_at': data//     should be ticket info
-    };
-  
-    var source = document.getElementById("requester-template").innerHTML;
-    var template = Handlebars.compile(source);
-    var html = template(requester_data);
-    document.getElementById("content").innerHTML = html;
-  }
+// Show Info Ticket
+function showInfoTicket(data) {
+var requester_data = {
+  //'name': data.user.name,
+  //'tags': data.user.tags,
+  //'created_at': formatDate(data.user.created_at), // should be ticket info
+  'finish_at': data//     should be ticket info
+};
 
- // Show Error  
-  function showError() {
-    var error_data = {
-      'status': 404,
-      'statusText': 'Not found'
-    };
-  
-    var source = document.getElementById("error-template").innerHTML;
-    var template = Handlebars.compile(source);
-    var html = template(error_data);
-    document.getElementById("content").innerHTML = html;
-  }
+var source = document.getElementById("requester-template").innerHTML;
+var template = Handlebars.compile(source);
+var html = template(requester_data);
+document.getElementById("content").innerHTML = html;
+}
+
+// Show Error  
+function showError() {
+  var error_data = {
+    'status': 404,
+    'statusText': 'Not found'
+  };
+
+  var source = document.getElementById("error-template").innerHTML;
+  var template = Handlebars.compile(source);
+  var html = template(error_data);
+  document.getElementById("content").innerHTML = html;
+}
 
 
-// Formate Date 
-function formatDate(date) {
-    var cdate = new Date(date);
-    var options = {
-      year: "numeric",
-      month: "short",
-      day: "numeric"
-    };
-    date = cdate.toLocaleDateString("en-us", options);
-    return date;
-  }
 
-  // Funktion, die aufgerufen wird, wenn der Button geklickt wird
+// ----------------------------  Set Button   ------------------------------ 
+// Funktion, die aufgerufen wird, wenn der Button geklickt wird
 function onSetDateButtonClick() {
 
   var client = ZAFClient.init();
@@ -158,27 +138,31 @@ function onSetDateButtonClick() {
   // Datum setzen
   var dateToSet = new Date(inputDate);
 
-
   // Formatieren des Datums in das gewünschte Format
   var formattedDate = formatDateToUTC(dateToSet);
 
   // Setzen des Datums in das benutzerdefinierte Feld
-  client.set('ticket.customField:custom_field_19134886927633', formattedDate).then(
-    function() {
-      console.log('Datum wurde erfolgreich gesetzt:', formattedDate);
-    },
-    function(response) {
-      console.error('Fehler beim Setzen des Datums:', response.responseText);
-    }
-  );
+    client.set('ticket.customField:custom_field_19134886927633', formattedDate).then(
+      function() {
+        console.log('Datum wurde erfolgreich gesetzt:', formattedDate);
+      },
+      function(response) {
+        console.error('Fehler beim Setzen des Datums:', response.responseText);
+      }
+    );
 }
 
-  document.addEventListener('DOMContentLoaded', function() {
+
+// ----------------------------  DOM    ------------------------------ 
+document.addEventListener('DOMContentLoaded', function() {
     // DOM CONTENT LOAD
     var button = document.getElementById('button');
     button.addEventListener('click', onSetDateButtonClick);
     
-  });
+});
+
+
+// ----------------------------  Format Date   ------------------------------ 
 
 // Funktion zum Formatieren des Datums in UTC ("yyyy-mm-dd" Format)
 function formatDateToUTC(date) {
@@ -188,15 +172,53 @@ function formatDateToUTC(date) {
   return year + '-' + month + '-' + day;
 }
 
+// Formate Date 
+function formatDate(date) {
+  var cdate = new Date(date);
+  var options = {
+    year: "numeric",
+    month: "short",
+    day: "numeric"
+  };
+  date = cdate.toLocaleDateString("en-us", options);
+  return date;
+}
 
 // ----------------------------  Change Status   ------------------------------ 
 
 // Wenn Datum abgelaufen, setzte ticket status auf neu 
+// Funktion zum regelmäßigen Überprüfen aller Tickets
+function checkAllTicketsForExpiry(client) {
+  setInterval(function() {
+    // Hier rufst du die Funktion auf, die alle Tickets überprüft und den Status aktualisiert
+    checkAndUpdateAllTickets(client);
+  }, 30 * 1000); // 30 Sekunden Intervall (in Millisekunden)
+}
+
+// Funktion zum Überprüfen und Aktualisieren des Ticketstatus für alle Tickets
+function checkAndUpdateAllTickets(client) {
+  // Rufe alle Tickets ab
+  client.request('/api/v2/tickets.json').then(function(response) {
+    const tickets = response.tickets;
+    console.log(response);
+    
+    // Durchlaufe alle Tickets und überprüfe das Ablaufdatum
+    tickets.forEach(function(ticket) {
+      const customFieldDate = new Date(ticket.custom_fields.find(field => field.id === 'custom_field_19134886927633').value);
+
+      if (isDateExpired(customFieldDate)) {
+        // Das Datum ist abgelaufen, ändere den Ticketstatus hier
+        changeTicketStatus(client, ticket.id, 'new'); // Du kannst hier den gewünschten Status verwenden
+      }
+    });
+  });
+}
+
 
 // Funktion zum Ändern des Ticketstatus
 
 
-// Funktion zum Überprüfen und Aktualisieren des Ticketstatus
+// Funktion zum Überprüfen und Aktualisieren des Ticketstatus im Ticket 
 function checkAndUpdateTicketStatus(client) {
   // Hole das aktuelle Ticket
   var ticketId;
@@ -222,6 +244,7 @@ function checkAndUpdateTicketStatus(client) {
     });
   });
 }
+
 
 
 // Hier wird die Funktion zur Überprüfung des Ticketstatus aufgerufen
@@ -253,3 +276,7 @@ function changeTicketStatus(client, ticketId, newStatus) {
     }
   );
 }
+
+
+
+
