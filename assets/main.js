@@ -9,6 +9,16 @@
   // request() - Http Request 
   var client = ZAFClient.init();
 
+    
+    // Starte die Überprüfungsfunktion beim Laden der App 
+    checkAndUpdateTicketStatus(client);
+
+    // Interval für die Überprüfungsfunktion (alle 24 Stunden)
+    var checkIntervalInMilliseconds = 24 * 60 * 60 * 1000; // 24 Stunden
+    setInterval(function() {
+      checkAndUpdateTicketStatus(client);
+    }, checkIntervalInMilliseconds);
+    
     // Size from App if in sidebar
     client.invoke('resize', { width: '200px', height: '200px' });
 
@@ -185,26 +195,17 @@ function formatDateToUTC(date) {
 
 // Funktion zum Ändern des Ticketstatus
 
-(function() {
-  // Import Zendesk SDK
-  var client = ZAFClient.init();
-
-  // Starte die Überprüfungsfunktion beim Laden der App
-  checkAndUpdateTicketStatus(client);
-
-  // Interval für die Überprüfungsfunktion (alle 24 Stunden)
-  var checkIntervalInMilliseconds = 24 * 60 * 60 * 1000; // 24 Stunden
-  setInterval(function() {
-    checkAndUpdateTicketStatus(client);
-  }, checkIntervalInMilliseconds);
-
-})();
 
 // Funktion zum Überprüfen und Aktualisieren des Ticketstatus
 function checkAndUpdateTicketStatus(client) {
   // Hole das aktuelle Ticket
-  client.metadata().then(function(metadata) {
-    var ticketId = metadata.ticket.id;
+  var ticketId;
+  // Get Ticket_id
+  client.get('ticket.id').then(function(data) {
+  //console.log(data);
+      
+  // Die Ticket-ID als Integer abrufen
+  ticketId = parseInt(data['ticket.id']);
 
     // Hole das Datum aus dem benutzerdefinierten Feld
     client.get('ticket.customField:custom_field_19134886927633').then(function(data) {
@@ -216,7 +217,7 @@ function checkAndUpdateTicketStatus(client) {
       // Überprüfe, ob das Datum abgelaufen ist
       if (isDateExpired(dateToCheck)) {
         // Das Datum ist abgelaufen, ändere den Ticketstatus hier
-        changeTicketStatus(client, ticketId, 'closed'); // Du kannst hier den gewünschten Status verwenden
+        changeTicketStatus(client, ticketId, 'new'); // Du kannst hier den gewünschten Status verwenden
       }
     });
   });
