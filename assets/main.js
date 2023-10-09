@@ -136,11 +136,15 @@ function onSetDateButtonClick() {
 
   var client = ZAFClient.init();
 
-  // Hier kannst du das gewünschte Datum erstellen
-  var dateToSet = new Date(); // Hier wird das aktuelle Datum verwendet, du kannst es anpassen
+  // Datum aus eingabe lesen
+  var inputDate = document.getElementById("dueDate").value;
+
+  // Datum setzen
+  var dateToSet = new Date(inputDate);
+  dateToSet.setUTCHours(0, 0, 0, 0); // Zeitzone auf UTC setzen
 
   // Formatieren des Datums in das gewünschte Format
-  var formattedDate = formatDate(dateToSet);
+  var formattedDate = formatDateToUTC(dateToSet);
 
   // Setzen des Datums in das benutzerdefinierte Feld
   client.set('ticket.customField:custom_field_19134886927633', formattedDate).then(
@@ -160,3 +164,10 @@ function onSetDateButtonClick() {
     
   });
 
+// Funktion zum Formatieren des Datums in UTC ("yyyy-mm-dd" Format)
+function formatDateToUTC(date) {
+  var year = date.getUTCFullYear();
+  var month = (date.getUTCMonth() + 1).toString().padStart(2, '0'); // Monat ist nullbasiert
+  var day = date.getUTCDate().toString().padStart(2, '0');
+  return year + '-' + month + '-' + day;
+}
