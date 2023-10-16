@@ -79,7 +79,6 @@ function requestUserInfo(client, user_id) {
     }
   );
 }
-  
 
 // Show Info User
 function showInfoUser(data) {
