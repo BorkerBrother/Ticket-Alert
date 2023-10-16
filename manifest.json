@@ -10,8 +10,16 @@
     "support": {
       "ticket_editor": {
         "url": "assets/iframe.html"
-       
+      },
+      "top_bar":{
+        "autoHide": false,
+        "url": "assets/top_bar.html",
+        "size": {
+          "width": "450px",
+          "height": "500px"
+        }
       }
+
     }
   },
   "version": "1.0.0",
