@@ -1,6 +1,6 @@
 # ZENDESK Timer 
 
-* ## Installing ZCLI:
+## Installing ZCLI:
 
 ## To Install ZCLI, you´ll need the following:
 - Node.js
@@ -16,7 +16,7 @@
 ## To start ZCLI Locally:
 - zcli apps:server 
 
--> Open webbrowser https://{subdomain}.zendesk.com/agent/tickets/{1}?zcli_apps=true
+-  Open webbrowser https://{subdomain}.zendesk.com/agent/tickets/{1}?zcli_apps=true
 
 
 Please submit bug reports to [Insert Link](). Pull requests are welcome. 
