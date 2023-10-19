@@ -161,28 +161,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-// ----------------------------  Format Date   ------------------------------ 
-
-// Funktion zum Formatieren des Datums in UTC ("yyyy-mm-dd" Format)
-function formatDateToUTC(date) {
-  var year = date.getUTCFullYear();
-  var month = (date.getUTCMonth() + 1).toString().padStart(2, '0'); // Monat ist nullbasiert
-  var day = date.getUTCDate().toString().padStart(2, '0');
-  return year + '-' + month + '-' + day;
-}
-
-// Formate Date 
-function formatDate(date) {
-  var cdate = new Date(date);
-  var options = {
-    year: "numeric",
-    month: "short",
-    day: "numeric"
-  };
-  date = cdate.toLocaleDateString("en-us", options);
-  return date;
-}
-
 // ----------------------------  Change Status   ------------------------------ 
 
 // Wenn Datum abgelaufen, setzte ticket status auf neu 
@@ -245,12 +223,6 @@ function checkAndUpdateTicketStatus(client) {
 }
 
 
-
-// Hier wird die Funktion zur Überprüfung des Ticketstatus aufgerufen
-function isDateExpired(date) {
-  var currentDate = new Date();
-  return date < currentDate;
-}
 
 // Funktion zum Ändern des Ticketstatus
 function changeTicketStatus(client, ticketId, newStatus) {
