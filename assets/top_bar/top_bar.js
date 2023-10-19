@@ -29,16 +29,28 @@ function checkAllTicketsForExpiry(client) {
       
       // Durchlaufe alle Tickets und überprüfe das Ablaufdatum
       tickets.forEach(function(ticket) {
-        console.log(ticket);
+  
+      // Loop through custom fields and log each one
+      ticket.custom_fields.forEach(function(customField) {
+        if (customField) {
+          const customFieldDate = customField.value;
+          console.log(ticket.id , customFieldDate);
 
-        const customFieldDate = ticket.custom_fields.find(field => field.id === 'custom_field_19134886927633').value;
-
-        console.log(customFieldDate2);
-
-        if (isDateExpired(customFieldDate)) {
-          // Das Datum ist abgelaufen, ändere den Ticketstatus hier
-          changeTicketStatus(client, ticket.id, 'new'); // Du kannst hier den gewünschten Status verwenden
+          if (isDateExpired(customFieldDate)) {
+            // Das Datum ist abgelaufen, ändere den Ticketstatus hier
+            changeTicketStatus(client, ticket.id, 'new'); // Du kannst hier den gewünschten Status verwenden
+          }
+        } 
+        
+        else {
+          console.log('Custom field not found for this ticket');
         }
+
+      });
+        
+
+
+      
       });
     });
   }
