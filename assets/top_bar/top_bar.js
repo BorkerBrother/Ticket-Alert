@@ -1,4 +1,8 @@
 
+// Find the "Refresh" button element by attributes
+const refreshButton = document.querySelector('[data-garden-id="buttons.icon_button"][aria-label="Ansichtsbereich aktualisieren"]');
+
+
 (function () {
 
     var client = ZAFClient.init();
@@ -40,7 +44,7 @@ function checkAllTicketsForExpiry(client) {
           formatDate(testDate);
 
           //console.log(ticket);
-          console.log(ticket.status);
+          //console.log(ticket.status);
 
           if(!(ticket.status == "closed")){
 
@@ -48,6 +52,7 @@ function checkAllTicketsForExpiry(client) {
             if (isDateExpired(testDate)) {
               // Das Datum ist abgelaufen, ändere den Ticketstatus hier
               changeTicketStatus(client, ticket.id, 'new'); // Du kannst hier den gewünschten Status verwenden
+              clickRefreshButton();
             }
           }
           
@@ -63,6 +68,18 @@ function checkAllTicketsForExpiry(client) {
   }
 
   
+  function clickRefreshButton() {
+    // Find the "Refresh" button element by attributes
+    const refreshButton = document.querySelector('[data-test-id]');
+    console.log('Gefundenes Button-Objekt:', refreshButton);
+    if (refreshButton) {
+      // Trigger a click event on the "Refresh" button
+      refreshButton.click();
+    } else {
+      console.error('Unable to find the "Refresh" button. It may not be available on this page.');
+    }
+  }
+
   // Funktion zum Ändern des Ticketstatus
   function changeTicketStatus(client, ticketId, newStatus) {
     var statusField = 'status';
