@@ -36,11 +36,13 @@ function checkAllTicketsForExpiry(client) {
           const customFieldDate = customField.value;
           console.log(ticket.id , customFieldDate);
 
-          const testDate = new Date();
+          const testDate = new Date(customFieldDate);
+
+          formatDate(testDate);
 
           console.log(testDate);
 
-          if (isDateExpired(customFieldDate)) {
+          if (isDateExpired(testDate)) {
             console.log("test");
             // Das Datum ist abgelaufen, ändere den Ticketstatus hier
             changeTicketStatus(client, ticket.id, 'new'); // Du kannst hier den gewünschten Status verwenden

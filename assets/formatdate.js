@@ -1,11 +1,12 @@
-// Funktion zum Formatieren des Datums in UTC ("yyyy-mm-dd" Format)
 
-// Hier wird die Funktion zur Überprüfung des Ticketstatus aufgerufen
+
+// Date Abgelaufen 
 function isDateExpired(date) {
     var currentDate = new Date();
     return date < currentDate;
   }
 
+  // Funktion zum Formatieren des Datums in UTC ("yyyy-mm-dd" Format)
 function formatDateToUTC(date) {
     var year = date.getUTCFullYear();
     var month = (date.getUTCMonth() + 1).toString().padStart(2, '0');

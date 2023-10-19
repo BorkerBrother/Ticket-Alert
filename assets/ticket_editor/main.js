@@ -163,38 +163,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // ----------------------------  Change Status   ------------------------------ 
 
-// Wenn Datum abgelaufen, setzte ticket status auf neu 
-// Funktion zum regelmäßigen Überprüfen aller Tickets
-function checkAllTicketsForExpiry(client) {
-  setInterval(function() {
-    // Hier rufst du die Funktion auf, die alle Tickets überprüft und den Status aktualisiert
-    checkAndUpdateAllTickets(client);
-  }, 30 * 1000); // 30 Sekunden Intervall (in Millisekunden)
-}
-
-// Funktion zum Überprüfen und Aktualisieren des Ticketstatus für alle Tickets
-function checkAndUpdateAllTickets(client) {
-  // Rufe alle Tickets ab
-  client.request('/api/v2/tickets.json').then(function(response) {
-    const tickets = response.tickets;
-    console.log(response);
-    
-    // Durchlaufe alle Tickets und überprüfe das Ablaufdatum
-    tickets.forEach(function(ticket) {
-      const customFieldDate = new Date(ticket.custom_fields.find(field => field.id === 'custom_field_19134886927633').value);
-
-      if (isDateExpired(customFieldDate)) {
-        // Das Datum ist abgelaufen, ändere den Ticketstatus hier
-        changeTicketStatus(client, ticket.id, 'new'); // Du kannst hier den gewünschten Status verwenden
-      }
-    });
-  });
-}
-
-
 // Funktion zum Ändern des Ticketstatus
-
-
 // Funktion zum Überprüfen und Aktualisieren des Ticketstatus im Ticket 
 function checkAndUpdateTicketStatus(client) {
   // Hole das aktuelle Ticket
@@ -209,7 +178,6 @@ function checkAndUpdateTicketStatus(client) {
     // Hole das Datum aus dem benutzerdefinierten Feld
     client.get('ticket.customField:custom_field_19134886927633').then(function(data) {
       var customFieldDate = data['ticket.customField:custom_field_19134886927633'];
-
       // Konvertiere das Datum in ein Date-Objekt
       var dateToCheck = new Date(customFieldDate);
 
