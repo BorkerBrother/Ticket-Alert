@@ -69,9 +69,16 @@ function checkAllTicketsForExpiry(client) {
 
   
   function clickRefreshButton() {
+    
+    const buttons = document.getElementById('HTMLButtonElement');
+    console.log(buttons);
+    
     // Find the "Refresh" button element by attributes
-    const refreshButton = document.querySelector('[data-test-id]');
+
+    const refreshButton = document.getElementById('ember1629');
     console.log('Gefundenes Button-Objekt:', refreshButton);
+    //console.log(getAllElements());
+
     if (refreshButton) {
       // Trigger a click event on the "Refresh" button
       refreshButton.click();
