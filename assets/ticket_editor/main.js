@@ -2,15 +2,8 @@
 //--------------------- MAIN FUNCTION
 
 (function () {
-  // Import Zendesk SDK - Client
-  // get() - read
-  // set() - write
-  // on() - listen
-  // request() - Http Request 
+  
   var client = ZAFClient.init();
-
-  // Überprüfung im Browser
-  // checkAllTicketsForExpiry(client);  ---- TODO 
 
   // Starte die Überprüfungsfunktion beim Laden der App 
   checkAndUpdateTicketStatus(client);

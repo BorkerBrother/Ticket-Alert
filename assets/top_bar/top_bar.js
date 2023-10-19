@@ -34,19 +34,23 @@ function checkAllTicketsForExpiry(client) {
       ticket.custom_fields.forEach(function(customField) {
         if (customField) {
           const customFieldDate = customField.value;
-          console.log(ticket.id , customFieldDate);
+          //console.log(ticket.id , customFieldDate);
 
           const testDate = new Date(customFieldDate);
-
           formatDate(testDate);
 
-          console.log(testDate);
+          //console.log(ticket);
+          console.log(ticket.status);
 
-          if (isDateExpired(testDate)) {
-            console.log("test");
-            // Das Datum ist abgelaufen, ändere den Ticketstatus hier
-            changeTicketStatus(client, ticket.id, 'new'); // Du kannst hier den gewünschten Status verwenden
+          if(!(ticket.status == "closed")){
+
+          //console.log(testDate);
+            if (isDateExpired(testDate)) {
+              // Das Datum ist abgelaufen, ändere den Ticketstatus hier
+              changeTicketStatus(client, ticket.id, 'new'); // Du kannst hier den gewünschten Status verwenden
+            }
           }
+          
         } 
         
         else {
@@ -59,19 +63,9 @@ function checkAllTicketsForExpiry(client) {
   }
 
   
-
-  
-  
-  // Hier wird die Funktion zur Überprüfung des Ticketstatus aufgerufen
-  function isDateExpired(date) {
-    var currentDate = new Date();
-    return date < currentDate;
-  }
-  
   // Funktion zum Ändern des Ticketstatus
   function changeTicketStatus(client, ticketId, newStatus) {
     var statusField = 'status';
-    console.log("test");
   
     var ticketData = {};
     ticketData[statusField] = newStatus;
