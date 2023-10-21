@@ -13,10 +13,7 @@
 }
 
 .ticket:hover {
-    transform: scale(1.0); /* Vergrößern auf Hover */
+    transform: scale(0.93); /* Vergrößern auf Hover */
     background-color: #1f77d0; /* Ändern der Hintergrundfarbe auf Hover */
 }
 
-.ticket-title {
-
-}

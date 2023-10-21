@@ -8,7 +8,8 @@ function createTicketElements(ticket, date) {
     ticketElement.innerHTML = `
         <h2 class="ticket-title">Ticket #${ticket.id}</h2>
         <p class="ticket-summary">Betreff: ${ticket.subject}</p>
-        <p class="ticket-date">Date: ${formatDate(date)}</p>
+        <p class="ticket-tags">Tags: ${ticket.tags}</P>
+        <p class="ticket-date">Enddatum: ${formatDate(date)}</p>
     `;
     return ticketElement;
 }

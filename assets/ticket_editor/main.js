@@ -76,8 +76,8 @@ function requestUserInfo(client, user_id) {
 // Show Info User
 function showInfoUser(data) {
   var requester_data = {
-    'name': data.user.name,
-    'tags': data.user.tags,
+    //'name': data.user.name,
+    //'tags': data.user.tags,
     //'created_at': formatDate(data.user.created_at), // should be ticket info
     //'finish_at': formatDate(data.user.finish_at) //     should be ticket info
   };
@@ -91,7 +91,7 @@ function showInfoUser(data) {
 // Show Info Ticket
 function showInfoTicket(data) {
 var requester_data = {
-  //'name': data.user.name,
+  //'name': user,
   //'tags': data.user.tags,
   //'created_at': formatDate(data.user.created_at), // should be ticket info
   'finish_at': data//     should be ticket info
