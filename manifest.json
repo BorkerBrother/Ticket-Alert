@@ -20,10 +20,10 @@
         "size": {
           "width": "450px",
           "height": "500px"
-        },
-        "background": "assets/top_bar/top_bar.html"
-
-      }
+        }
+        
+      },
+      "background": "assets/top_bar/top_bar.html"
 
     }
   },
