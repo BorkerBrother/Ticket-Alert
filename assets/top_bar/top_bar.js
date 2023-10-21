@@ -5,11 +5,12 @@ const refreshButton = document.querySelector('[data-garden-id="buttons.icon_butt
 
 (function () {
 
-    var client = ZAFClient.init();
+    var client = getClient();
 
     checkAndUpdateAllTickets(client);
     // Solange Ticket 
     checkAllTicketsForExpiry(client);
+
     
   })();
   
@@ -52,7 +53,7 @@ function checkAllTicketsForExpiry(client) {
             if (isDateExpired(testDate)) {
               // Das Datum ist abgelaufen, ändere den Ticketstatus hier
               changeTicketStatus(client, ticket.id, 'new'); // Du kannst hier den gewünschten Status verwenden
-              addTicketToContainer(ticket);
+              addTicketToContainerIfNotExists(ticket);
               clickRefreshButton();
             }
           }
@@ -72,12 +73,12 @@ function checkAllTicketsForExpiry(client) {
   function clickRefreshButton() {
     
     const buttons = document.getElementById('HTMLButtonElement');
-    console.log(buttons);
+    //console.log(buttons);
     
     // Find the "Refresh" button element by attributes
 
     const refreshButton = document.getElementById('ember1629');
-    console.log('Gefundenes Button-Objekt:', refreshButton);
+    //console.log('Gefundenes Button-Objekt:', refreshButton);
     //console.log(getAllElements());
 
     if (refreshButton) {
