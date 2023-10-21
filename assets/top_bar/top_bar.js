@@ -11,6 +11,7 @@ const refreshButton = document.querySelector('[data-garden-id="buttons.icon_butt
     // Solange Ticket 
     checkAllTicketsForExpiry(client);
 
+    updateIconCount();
     
   })();
   

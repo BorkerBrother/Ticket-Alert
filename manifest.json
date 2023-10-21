@@ -6,6 +6,7 @@
   },
   "defaultLocale": "en",
   "private": true,
+
   "location": {
     "support": {
       "ticket_editor": {
@@ -14,10 +15,13 @@
       "top_bar":{
         "autoHide": false,
         "url": "assets/top_bar/top_bar.html",
+        
         "size": {
           "width": "450px",
           "height": "500px"
-        }
+        },
+        "background": "assets/top_bar/top_bar.html"
+
       }
 
     }
