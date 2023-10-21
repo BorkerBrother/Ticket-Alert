@@ -6,7 +6,7 @@ const refreshButton = document.querySelector('[data-garden-id="buttons.icon_butt
 (function () {
 
     var client = getClient();
-
+    
     checkAndUpdateAllTickets(client);
     // Solange Ticket 
     checkAllTicketsForExpiry(client);

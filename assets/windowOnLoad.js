@@ -1,6 +1,6 @@
 window.onload = function (){
     
-    var client = ZAFClient.init();
+    var client = getClient();
 
     checkAllTicketsForExpiry(client);
     

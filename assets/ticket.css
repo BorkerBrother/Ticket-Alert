@@ -1,0 +1,22 @@
+.ticket {
+    border: 2px solid black; /* Solider schwarzer Rand */
+    padding: 15px; /* Größere Innenpolsterung */
+    margin: 10px; /* Größerer Außenabstand */
+    background-color: #3498db; /* Blaue Hintergrundfarbe */
+    color: #fff; /* Weiße Textfarbe */
+    border-radius: 10px; /* Abgerundete Ecken */
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2); /* Schatten für einen schwebenden Effekt */
+    transition: transform 0.2s, background-color 0.2s; /* Sanfte Animationseffekte */
+    transform: scale(0.9);
+    /* Hinzufügen eines Hover-Effekts */
+    transition: transform 0.2s, background-color 0.2s; /* Sanfte Animationseffekte */
+}
+
+.ticket:hover {
+    transform: scale(1.0); /* Vergrößern auf Hover */
+    background-color: #1f77d0; /* Ändern der Hintergrundfarbe auf Hover */
+}
+
+.ticket-title {
+
+}

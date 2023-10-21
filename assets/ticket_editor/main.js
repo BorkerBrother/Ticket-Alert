@@ -3,7 +3,7 @@
 
 (function () {
   
-  var client = ZAFClient.init();
+  var client = getClient();
 
   // Starte die Überprüfungsfunktion beim Laden der App 
   checkAndUpdateTicketStatus(client);
@@ -122,7 +122,7 @@ function showError() {
 // Funktion, die aufgerufen wird, wenn der Button geklickt wird
 function onSetDateButtonClick() {
 
-  var client = ZAFClient.init();
+  var client = getClient();
 
   // Datum aus eingabe lesen
   var inputDate = document.getElementById("dueDate").value;

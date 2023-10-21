@@ -34,9 +34,22 @@ function addTicketToContainerIfNotExists(ticket, date) {
     if (!ticketAlreadyExists) {
         const ticketElement = createTicketElements(ticket, date);
         ticketContainer.appendChild(ticketElement);
+
+        // Füge den Klick-Event-Listener hinzu
+        ticketElement.addEventListener('click', (event) => {
+            openTicket(ticket.id);
+        });
     }
 }
 
 
 
+// Funktion zum Öffnen eines Tickets anhand seiner ID
+function openTicket(ticketId) {
+    // Erstellen Sie die URL für das Ticket basierend auf seiner ID
+    const ticketURL = `https://d3v-laut-samples.zendesk.com/agent/tickets/${ticketId}`+ "?zcli_apps=true"; // Annahme: Die URL-Struktur entspricht /tickets/<ticket-id>
 
+    // Führen Sie die Weiterleitung zur Ticket-URL durch
+    window.open(ticketURL);
+    //document.body.appendChild(ticketURL);
+}
