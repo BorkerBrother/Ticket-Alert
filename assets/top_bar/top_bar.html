@@ -11,50 +11,30 @@
    -->
    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
    crossorigin="anonymous">
-
    <link href="top_bar.css" rel="stylesheet">
 </head>
 
-<Ticket class="w3-container">
-  
-  <h2>
-    Ticket 1
-  </h2>
-  
-</Ticket>
-  
-
-<article class="w3-container">
-  <h2>
-    Ticket 2
-  </h2>
-</article>
-
-<section class="w3-container">
-  <h2>
-    Ticket 3
-  </h2>
-</section>
 
 <body>
-
-  <div id="ticket_field"> </div>
-
-  <div id="content"></div>
-
-  <footer>
-    <a href="https://mysite.github.io/support" target="_blank">Report bugs</a>
-  </footer>
 
   <script id="error-template" type="text/x-handlebars-template">
     <p>{{status}} - {{statusText}} error. Please report a bug at the link below.</p>
   </script>
-
   <script src="https://static.zdassets.com/zendesk_app_framework_sdk/2.0/zaf_sdk.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/handlebars@4.3.3/dist/handlebars.min.js"></script>
-  
+
   <script src="../formatdate.js"></script>
   <script src="top_bar.js"></script>
+  <div id="ticketContainer"></div>
+  <script src="../tickets.js"></script>
+
 
 </body>
+
+<!--
+<footer>
+  <a href="https://mysite.github.io/support" target="_blank">Report bugs</a>
+</footer>
+-->
+
 </html>

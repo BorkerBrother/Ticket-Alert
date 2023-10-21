@@ -3,22 +3,26 @@ footer {
     padding-top: 20px;
   }
 
-  body {
-    background-color: grey;
-  }
-
-  h2{
-    margin-top: 0%;
-    padding-top: 10%;
-    background-color: darkgray;
-    font-size: 10px;
-
-  }
-
-  #ticket{
-    font-size: 10px;
-    padding: 10%;
-    background-color: red;
-
-  }
+body {
+  background-color: grey;
+}
  
+.grid {
+  padding: 3px;
+}
+
+.grid div:nth-child(even) {
+  background-color: lightgray;
+  padding: 3px;
+}
+
+.grid div:nth-child(odd) {
+  background-color: darkgray;
+  padding: 3px;
+}
+
+.ticket {
+  border: 2px black;
+  padding: 10%;
+  margin: 5px;
+}

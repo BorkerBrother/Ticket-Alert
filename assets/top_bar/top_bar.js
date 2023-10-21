@@ -52,6 +52,7 @@ function checkAllTicketsForExpiry(client) {
             if (isDateExpired(testDate)) {
               // Das Datum ist abgelaufen, ändere den Ticketstatus hier
               changeTicketStatus(client, ticket.id, 'new'); // Du kannst hier den gewünschten Status verwenden
+              addTicketToContainer(ticket);
               clickRefreshButton();
             }
           }
