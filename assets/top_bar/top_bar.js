@@ -1,6 +1,4 @@
 
-// Find the "Refresh" button element by attributes
-const refreshButton = document.querySelector('[data-garden-id="buttons.icon_button"][aria-label="Ansichtsbereich aktualisieren"]');
 
 
 (function () {
@@ -55,7 +53,7 @@ function checkAllTicketsForExpiry(client) {
               // Das Datum ist abgelaufen, ändere den Ticketstatus hier
               changeTicketStatus(client, ticket.id, 'new'); // Du kannst hier den gewünschten Status verwenden
               addTicketToContainerIfNotExists(ticket, testDate);
-              clickRefreshButton();
+              //clickRefreshButton();
             }
           }
           
@@ -70,25 +68,7 @@ function checkAllTicketsForExpiry(client) {
     });
   }
 
-  
-  function clickRefreshButton() {
-    
-    const buttons = document.getElementById('HTMLButtonElement');
-    //console.log(buttons);
-    
-    // Find the "Refresh" button element by attributes
 
-    const refreshButton = document.getElementById('ember1629');
-    //console.log('Gefundenes Button-Objekt:', refreshButton);
-    //console.log(getAllElements());
-
-    if (refreshButton) {
-      // Trigger a click event on the "Refresh" button
-      refreshButton.click();
-    } else {
-      console.error('Unable to find the "Refresh" button. It may not be available on this page.');
-    }
-  }
 
   // Funktion zum Ändern des Ticketstatus
   function changeTicketStatus(client, ticketId, newStatus) {

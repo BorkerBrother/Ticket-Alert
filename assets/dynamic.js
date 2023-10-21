@@ -18,8 +18,11 @@ async function updateIconCount(delayInMillis) {
 // In prod, update this function to call a
 // third-party API using ZAF's client.request() method
 async function getCount() {
-  // Returns a random integer between 0-10 (inclusive)
-  return Math.floor(Math.random() * 11);
+  // Hier nehmen wir an, dass jedes Ticket ein Element mit der Klasse "ticket" ist.
+  const ticketElements = document.getElementsByClassName("ticket");
+  const count = ticketElements.length;
+
+  return count;
 }
 
 async function setTopBarIcon(symbol) {

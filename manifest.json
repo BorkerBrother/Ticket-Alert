@@ -14,6 +14,7 @@
       },
       "top_bar":{
         "autoHide": false,
+        "autoLoad": true,
         "url": "assets/top_bar/top_bar.html",
         
         "size": {
