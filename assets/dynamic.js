@@ -1,5 +1,5 @@
 var client = getClient();
-const POLL_INTERVAL_IN_MILLIS = 2000;
+const POLL_INTERVAL_IN_MILLIS = 20000;
 
 async function updateIconCount(delayInMillis) {
   const count = await getCount();
