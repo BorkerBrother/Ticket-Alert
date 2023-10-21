@@ -1,13 +1,14 @@
 
 
 // Function to create and populate the HTML elements for each ticket
-function createTicketElements(ticket) {
+function createTicketElements(ticket, date) {
+
     const ticketElement = document.createElement("div");
     ticketElement.classList.add("ticket");
     ticketElement.innerHTML = `
         <h2 class="ticket-title">Ticket #${ticket.id}</h2>
         <p class="ticket-summary">Betreff: ${ticket.subject}</p>
-        <p class="ticket-status">Status: ${ticket.status}</p>
+        <p class="ticket-date">Date: ${formatDate(date)}</p>
     `;
     return ticketElement;
 }
@@ -15,7 +16,7 @@ function createTicketElements(ticket) {
 
 
 // Function to add ticket elements to the container
-function addTicketToContainerIfNotExists(ticket) {
+function addTicketToContainerIfNotExists(ticket, date) {
     const ticketContainer = document.getElementById("ticketContainer");
     const ticketElements = ticketContainer.getElementsByClassName("ticket");
     
@@ -31,7 +32,7 @@ function addTicketToContainerIfNotExists(ticket) {
 
     // Wenn das Ticket noch nicht vorhand ist, füge es hinzu
     if (!ticketAlreadyExists) {
-        const ticketElement = createTicketElements(ticket);
+        const ticketElement = createTicketElements(ticket, date);
         ticketContainer.appendChild(ticketElement);
     }
 }
