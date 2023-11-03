@@ -1,6 +1,3 @@
-
-
-
 (function () {
 
     var client = getClient();
@@ -25,6 +22,7 @@ function checkAllTicketsForExpiry(client) {
     }, 30 * 1000); // 30 Sekunden Intervall (in Millisekunden)
   }
   
+
   // Funktion zum Überprüfen und Aktualisieren des Ticketstatus für alle Tickets
   function checkAndUpdateAllTickets(client) {
     // Rufe alle Tickets ab
@@ -86,10 +84,10 @@ function checkAllTicketsForExpiry(client) {
       }
     }).then(
       function(response) {
-        console.log('Ticketstatus wurde erfolgreich geändert:', newStatus);
+        //console.log('Ticketstatus wurde erfolgreich geändert:', newStatus);
       },
       function(response) {
-        console.error('Fehler beim Ändern des Ticketstatus:', response.responseText);
+        //console.error('Fehler beim Ändern des Ticketstatus:', response.responseText);
       }
     );
   }
