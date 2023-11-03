@@ -3,18 +3,12 @@
     var client = getClient();
     
     checkAndUpdateAllTickets(client);
-    // Solange Ticket 
     checkAllTicketsForExpiry(client);
-
     updateIconCount();
     
   })();
   
 
-  // ----------------------------  Change Status   ------------------------------ 
-
-// Wenn Datum abgelaufen, setzte ticket status auf neu 
-// Funktion zum regelmäßigen Überprüfen aller Tickets
 function checkAllTicketsForExpiry(client) {
     setInterval(function() {
       // Hier rufst du die Funktion auf, die alle Tickets überprüft und den Status aktualisiert
@@ -26,42 +20,35 @@ function checkAllTicketsForExpiry(client) {
   // Funktion zum Überprüfen und Aktualisieren des Ticketstatus für alle Tickets
   function checkAndUpdateAllTickets(client) {
     
-    // Rufe alle Tickets ab
     client.request('/api/v2/tickets.json').then(function(response) {
       const tickets = response.tickets;
-      
+
       // Durchlaufe alle Tickets und überprüfe das Ablaufdatum
       tickets.forEach(function(ticket) {
   
-      // Loop through custom fields and log each one
-      ticket.custom_fields.forEach(function(customField) {
-        if (customField) {
-          const customFieldDate = customField.value;
-          //console.log(ticket.id , customFieldDate);
+        ticket.custom_fields.forEach(function(customField) {
+          if (customField) {
+            const customFieldDate = customField.value;
+            //console.log(ticket.id , customFieldDate);
 
-          const testDate = new Date(customFieldDate);
-          formatDate(testDate);
+            const testDate = new Date(customFieldDate);
+            formatDate(testDate);
 
-          //console.log(ticket);
-          //console.log(ticket.status);
+            //console.log(ticket);
+            //console.log(ticket.status);
+            if(!(ticket.status == "closed")){
 
-          if(!(ticket.status == "closed")){
-
-          //console.log(testDate);
-            if (isDateExpired(testDate)) {
-              // Das Datum ist abgelaufen, ändere den Ticketstatus hier
-              changeTicketStatus(client, ticket.id, 'new'); // Du kannst hier den gewünschten Status verwenden
-              addTicketToContainerIfNotExists(ticket, testDate);
-              //clickRefreshButton();
+            //console.log(testDate);
+              if (isDateExpired(testDate)) {
+                // Das Datum ist abgelaufen, ändere den Ticketstatus hier
+                changeTicketStatus(client, ticket.id, 'new');
+                addTicketToContainerIfNotExists(ticket, testDate);
+              }
             }
+          } 
+          else {
+            console.log('Custom field not found for this ticket');
           }
-          
-        } 
-        
-        else {
-          console.log('Custom field not found for this ticket');
-        }
-
       });
       });
     });
