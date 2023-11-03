@@ -31,7 +31,7 @@
   // GET TICKET INFO as request 
   client.request('/api/v2/tickets/' + ticketId).then(
     function(tickets) {
-      //console.log(tickets);
+      console.log(tickets);
 
       client.get('ticket.customField:custom_field_19134886927633').then(function(data) {
         // Datum aus dem benutzerdefinierten Feld abrufen

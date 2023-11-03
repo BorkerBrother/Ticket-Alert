@@ -19,12 +19,13 @@ function checkAllTicketsForExpiry(client) {
     setInterval(function() {
       // Hier rufst du die Funktion auf, die alle Tickets überprüft und den Status aktualisiert
       checkAndUpdateAllTickets(client);
-    }, 30 * 1000); // 30 Sekunden Intervall (in Millisekunden)
+    }, 60 * 1000); // 30 Sekunden Intervall (in Millisekunden)
   }
   
 
   // Funktion zum Überprüfen und Aktualisieren des Ticketstatus für alle Tickets
   function checkAndUpdateAllTickets(client) {
+    
     // Rufe alle Tickets ab
     client.request('/api/v2/tickets.json').then(function(response) {
       const tickets = response.tickets;
