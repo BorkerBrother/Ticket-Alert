@@ -19,7 +19,7 @@
     }
   );
 
-    //////////////////// Ticket Info MAIN 
+    //////////////////// Ticket Info MAIN //////////////////////
   var ticketId;
     // Get Ticket_id
   client.get('ticket.id').then(function(data) {
